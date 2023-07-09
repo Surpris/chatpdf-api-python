@@ -1,29 +1,29 @@
 # chatpdf-api-python
 
-**This module is unofficial.**
+**NOTE: This module is unofficial.**
 
-Python wrapper for [ChatPDF Backend API](https://www.chatpdf.com/docs/api/backend){:target="_blank"}. This module provides wrapper functions that ease usage of ChatPDF APIs.
+This module provides wrapper functions that ease the usage of the ChatPDF Backend APIs.
 
 ## References
 
 * [ChatPDF](https://www.chatpdf.com/)
     * [ChatPDF Backend API](https://www.chatpdf.com/docs/api/backend)
 
-# Installation
+## Installation
 
-This module is NOT supposed to be published in PyPi to avoid mistaking this module for an official one. You can install this module in the usual ways you do from a given Git repository. One method is as follows:
+This module is NOT supposed to be published in PyPI for users to avoid mistaking this module for an official one. You can install this module in the usual ways you do from a given Git repository. One method is as follows:
 
 ```sh
 pip install git+https://github.com/Surpris/chatpdf-api-python.git
 ```
 
-# Examples
+## Examples
 
 Please see the [examples](./examples) directory.
 
-# Usage
+## Usage
 
-## import and set API_KEY
+### import and set API_KEY
 
 ```python
 # import this module
@@ -36,14 +36,14 @@ chatpdf.API_KEY = '...'
 
 ```
 
-## add PDF via a URL
+### add PDF via a URL
 ```python
 url = '...'
 
-source_id = chatpd.upload_url(url)
+source_id = chatpdf.upload_url(url)
 ```
 
-## add PDFs via file upload
+### add PDFs via file upload
 
 ```python
 file_path_list = [
@@ -55,7 +55,7 @@ file_path_list = [
 source_id = chatpdf.upload_files(file_path_list)
 ```
 
-## post messages
+### chat: post messages
 
 ```python
 messages = [
@@ -68,7 +68,7 @@ reference_sources = True
 response = chatpdf.chat(source_id, messages, reference_sources=reference_sources)
 ```
 
-## delete the uploaded files
+### delete the uploaded files
 
 ```python
 source_ids = [
@@ -80,13 +80,36 @@ source_ids = [
 response_code = chatpdf.delete_files(source_ids)
 ```
 
-# Requirements
+## Requirements
 
-No special Python modules are required. This module imports the followings:
+* Python 3.6+
+    * `os`
+    * `requests`
+    * `typing`
 
-* `os`
-* `requests`
+## Contributions
 
-# Tested Python version
+We are welcom to your contributions for improving this module. Any reports, requests, etc. can be posted as issues. 
 
-* Python 3.10
+### Template for issues
+
+Please use the following template when you post your reports, etc. about this module:
+
+```
+Title: ...
+Background (optional): ...
+Purpose of your post: ...
+Detail of your post: ...
+```
+
+### Coding style
+
+We do not set any coding style other than docstring of functions.
+
+#### Style of docstring
+
+We recommend you to using [the NumPy docstring style](https://numpydoc.readthedocs.io/en/latest/format.html).
+
+## Disclaimer
+
+This module uses a user-provided API token for ChatPDF. The users of this module are solely responsible for the handling of their own API token, and we assume no liability for any consequences resulting from such handling. Please be careful NOT to unknowingly disclose the API token. The users are solely responsible for the consequences if the use of this module, or any modified version of this module, results in the disclosure of the user's API token.
