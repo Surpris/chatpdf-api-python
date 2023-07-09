@@ -9,7 +9,7 @@ setup(
     url='https://github.com/Surpris/chatpdf-api-python',
     author='Surpris',
     author_email='take90-it09-easy27@outlook.jp',
-    license='Apache License 2.0',
+    license='Apache-2.0 License',
     packages=find_packages(),
     install_requires=[
         'requests',
