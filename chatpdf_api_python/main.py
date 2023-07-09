@@ -177,4 +177,5 @@ def delete_files(source_ids: List[str]) -> int:
         url, headers=_headers, json=data,
         timeout=TIMEOUT_REQUEST_SEC
     )
+    response.raise_for_status()
     return response.status_code
