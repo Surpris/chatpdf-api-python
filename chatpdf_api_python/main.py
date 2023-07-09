@@ -1,8 +1,12 @@
+"""chatpdf_api_python.main
+"""
+
+from typing import List, Dict
 import os
 import requests
-from typing import List, Dict
 
 API_KEY = os.environ.get('CHATPDF_API_KEY', '')
+TIMEOUT_REQUEST_SEC = 30.0
 
 _headers = {
     'x-api-key': API_KEY,
@@ -19,7 +23,9 @@ def _validate_headers():
     )
 
 
-def upload_file(file_path_list: List[str]) -> str:
+def upload_files(file_path_list: List[str]) -> str:
+    """upload files 
+    """
     _update_headers()
     url = 'https://api.chatpdf.com/v1/sources/add-file'
     files = [
@@ -27,27 +33,44 @@ def upload_file(file_path_list: List[str]) -> str:
         for file_path in file_path_list
     ]
 
-    response = requests.post(url, headers=_headers, files=files)
-    if response.status_code == 200:
-        return response.json()['sourceId']
-    else:
-        raise Exception(f"status code: {response.status_code}, message: {response.text}")
+    response = requests.post(
+        url, headers=_headers, files=files,
+        timeout=TIMEOUT_REQUEST_SEC
+    )
+    if response.status_code != 200:
+        error_message = 'status code: {0}, message: {1}'.format(
+            response.status_code,
+            response.text
+        )
+        raise requests.exceptions.HTTPError(error_message)
+
+    return response.json()['sourceId']
 
 
 def upload_url(pdf_url: str) -> str:
+    """upload a url
+    """
     _update_headers()
     url = 'https://api.chatpdf.com/v1/sources/add-url'
     data = {'url': pdf_url}
 
-    response = requests.post(url, headers=_headers, json=data)
-    if response.status_code == 200:
-        return response.json()['sourceId']
-    else:
-        raise Exception(f"status code: {response.status_code}, message: {response.text}")
-    return response.json()
+    response = requests.post(
+        url, headers=_headers, json=data,
+        timeout=TIMEOUT_REQUEST_SEC
+    )
+    if response.status_code != 200:
+        error_message = 'status code: {0}, message: {1}'.format(
+            response.status_code,
+            response.text
+        )
+        raise requests.exceptions.HTTPError(error_message)
+
+    return response.json()['sourceId']
 
 
-def send_receive_message(source_id: str, messages: List[Dict[str, str]], reference_sources: bool = False):
+def chat(source_id: str, messages: List[Dict[str, str]], reference_sources: bool = False):
+    """chat with the uploaded files
+    """
     _validate_headers()
     url = 'https://api.chatpdf.com/v1/chats/message'
     data = {
@@ -55,13 +78,27 @@ def send_receive_message(source_id: str, messages: List[Dict[str, str]], referen
         'sourceId': source_id,
         'messages': messages,
     }
-    response = requests.post(url, headers=_headers, json=data)
+    response = requests.post(
+        url, headers=_headers, json=data,
+        timeout=TIMEOUT_REQUEST_SEC
+    )
+    if response.status_code != 200:
+        error_message = 'status code: {0}, message: {1}'.format(
+            response.status_code,
+            response.text
+        )
+        raise requests.exceptions.HTTPError(error_message)
     return response.json()['content']
 
 
-def delete_file(source_ids: str):
+def delete_files(source_ids: List[str]):
+    """delete the uploaded files
+    """
     _validate_headers()
     url = 'https://api.chatpdf.com/v1/sources/delete'
     data = {'sources': source_ids}
-    response = requests.post(url, headers=_headers, json=data)
+    response = requests.post(
+        url, headers=_headers, json=data,
+        timeout=TIMEOUT_REQUEST_SEC
+    )
     return response.status_code
