@@ -9,6 +9,13 @@ This module provides wrapper functions that ease the usage of the ChatPDF Backen
 * [ChatPDF](https://www.chatpdf.com/)
     * [ChatPDF Backend API](https://www.chatpdf.com/docs/api/backend)
 
+## Requirements
+
+* Python 3.6+
+    * `os`
+    * `requests`
+    * `typing`
+
 ## Installation
 
 This module is NOT supposed to be published in PyPI for users to avoid mistaking this module for an official one. You can install this module in the usual ways you do from a given Git repository. One method is as follows:
@@ -79,13 +86,6 @@ source_ids = [
 
 response_code = chatpdf.delete_files(source_ids)
 ```
-
-## Requirements
-
-* Python 3.6+
-    * `os`
-    * `requests`
-    * `typing`
 
 ## Contributions
 
