@@ -14,17 +14,51 @@ _headers = {
 
 
 def _update_headers():
+    """
+    Update the headers with the API key.
+
+    No Parameters
+
+    Returns
+    -------
+    None
+    """
     _headers['x-api-key'] = API_KEY
 
 
 def _validate_headers():
+    """
+    Validate the headers to ensure the API key is correct.
+
+    No Parameters
+
+    Raises
+    ------
+    ValueError
+        If the API key in the headers does not match the expected API key.
+
+    Returns
+    -------
+    None
+    """
     assert _headers['x-api-key'] == API_KEY, ValueError(
         'API_KEY is not same as that used in uploading.'
     )
 
 
 def upload_files(file_path_list: List[str]) -> str:
-    """upload files 
+    """
+    Upload files to the ChatPDF API.
+
+    Parameters
+    ----------
+    file_path_list : List[str]
+        List of file paths to upload.
+
+    Returns
+    -------
+    str
+        The source ID returned by the API.
     """
     _update_headers()
     url = 'https://api.chatpdf.com/v1/sources/add-file'
@@ -48,7 +82,18 @@ def upload_files(file_path_list: List[str]) -> str:
 
 
 def upload_url(pdf_url: str) -> str:
-    """upload a url
+    """
+    Upload a URL to the ChatPDF API.
+
+    Parameters
+    ----------
+    pdf_url : str
+        The URL of the PDF to upload.
+
+    Returns
+    -------
+    str
+        The source ID returned by the API.
     """
     _update_headers()
     url = 'https://api.chatpdf.com/v1/sources/add-url'
@@ -68,8 +113,28 @@ def upload_url(pdf_url: str) -> str:
     return response.json()['sourceId']
 
 
-def chat(source_id: str, messages: List[Dict[str, str]], reference_sources: bool = False):
-    """chat with the uploaded files
+def chat(source_id: str, messages: List[Dict[str, str]], reference_sources: bool = False) -> str:
+    """
+    Chat with the uploaded files using the ChatPDF API.
+
+    Parameters
+    ----------
+    source_id : str
+        The source ID of the uploaded files.
+    messages : List[Dict[str, str]]
+        List of messages to send in the chat.
+        each message has the following format:
+        {
+            "role": "user",  # "assistante", etc.
+            "message": "..."
+        }
+    reference_sources : bool, optional
+        Whether to reference sources in the chat, by default False
+
+    Returns
+    -------
+    str
+        The content returned by the API.
     """
     _validate_headers()
     url = 'https://api.chatpdf.com/v1/chats/message'
@@ -91,8 +156,19 @@ def chat(source_id: str, messages: List[Dict[str, str]], reference_sources: bool
     return response.json()['content']
 
 
-def delete_files(source_ids: List[str]):
-    """delete the uploaded files
+def delete_files(source_ids: List[str]) -> int:
+    """
+    Delete the uploaded files from the ChatPDF API.
+
+    Parameters
+    ----------
+    source_ids : List[str]
+        List of source IDs of the files to delete.
+
+    Returns
+    -------
+    int
+        The status code returned by the API.
     """
     _validate_headers()
     url = 'https://api.chatpdf.com/v1/sources/delete'
