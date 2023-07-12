@@ -156,6 +156,37 @@ def chat(source_id: str, messages: List[Dict[str, str]], reference_sources: bool
     return response.json()['content']
 
 
+def start(source_id: str) -> str:
+    """
+    `Say hello` to the uploaded files using the ChatPDF API.
+    This functions gives 
+
+    Parameters
+    ----------
+    source_id : str
+        The source ID of the uploaded files.
+    messages : List[Dict[str, str]]
+        List of messages to send in the chat.
+        each message has the following format:
+        {
+            "role": "user",  # "assistante", etc.
+            "message": "..."
+        }
+
+    Returns
+    -------
+    str
+        The content returned by the API.
+    """
+    message = [
+        {
+            'role': 'user',
+            'content': '<start>'
+        }
+    ]
+    return chat(source_id, message, False)
+
+
 def delete_files(source_ids: List[str]) -> int:
     """
     Delete the uploaded files from the ChatPDF API.
