@@ -75,7 +75,7 @@ reference_sources = True
 response = chatpdf.chat(source_id, messages, reference_sources=reference_sources)
 ```
 
-### start: post '<start>'
+### start: post `<start>`
 
 ```python
 reference_sources = False  # maybe not necessary
